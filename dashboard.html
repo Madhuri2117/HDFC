@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Bank Dashboard</title>
+</head>
+
+<style>
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #f4f6f8;
+}
+
+/* Top Bar */
+.topbar {
+  background: #004b8d;
+  color: #fff;
+  padding: 10px 20px;
+}
+
+.top-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.header-left{
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.Welcome-text{
+  color: #fff;
+  font-size: 14px;
+}
+.logo {
+  font-weight: bold;
+  font-size: 18px;
+}
+
+/* Menu */
+.menu {
+  background: #003b73;
+  padding: 8px 20px;
+}
+
+.menu ul {
+  list-style: none;
+  display: flex;
+  padding: 0;
+  margin: 0;
+}
+
+.menu li {
+  margin-right: 20px;
+  cursor: pointer;
+  color: #fff;
+  font-size: 14px;
+}
+
+.menu li:hover {
+  text-decoration: underline;
+}
+
+/* Layout */
+.container {
+  display: flex;
+}
+
+/* Sidebar */
+.sidebar {
+  width: 220px;
+  background: #e9edf2;
+  padding: 15px;
+  min-height: calc(100vh - 100px);
+}
+
+.sidebar h3 {
+  margin-top: 0;
+  color: #004b8d;
+}
+
+.sidebar ul {
+  list-style: none;
+  padding: 0;
+}
+
+.sidebar li {
+  padding: 10px;
+  background: #fff;
+  margin-bottom: 8px;
+  cursor: pointer;
+  border-left: 4px solid #004b8d;
+}
+
+/* Content */
+.content {
+  flex: 1;
+  padding: 20px;
+}
+
+.account-box {
+  background: #fff;
+  padding: 15px;
+  border: 1px solid #ccc;
+  margin-bottom: 20px;
+}
+
+.balance span {
+  color: green;
+  font-weight: bold;
+}
+
+.note {
+  background: #fff;
+  padding: 15px;
+  border: 1px solid #ccc;
+}
+.account-summary {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.account-summary .left {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.account-summary .right {
+  text-align: right;
+}
+
+.balance span {
+  color: green;
+  font-weight: bold;
+  display: inline-block;
+}
+
+#toggleText {
+  margin-left: 8px;
+  font-size: 12px;
+  color: #004b8d;
+  cursor: pointer;
+}
+</style>
+
+<body>
+
+<!-- Header -->
+<div class="topbar">
+  <div class="header-left">
+    <img src="hdfc-logo.png" alt="HDFC Bank" class="logo">
+    <span class="Welcome-text">
+      Welcome, <strong id="headerUsername"></strong> | 
+      <a href="#" onclick="logout()" style="color: #ccc; padding-left:150px; font: bold;">Logout</a>
+    </span>
+  </div>
+</div>
+
+<!-- Menu Bar -->
+<div class="menu">
+  <ul>
+    <li>Accounts</li>
+    <li>Fund Transfer</li>
+    <li>BillPay & Recharge</li>
+    <li>Cards</li>
+    <li>Demat</li>
+    <li>Mutual Fund</li>
+    <li>Insurance</li>
+    <li>Loans</li>
+    <li>Offers</li>
+  </ul>
+</div>
+
+<!-- Main Container -->
+<div class="container">
+
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <h3>Accounts</h3>
+    <ul>
+      <li>Savings Account</li>
+      <li>Current Account</li>
+      <li>Transact</li>
+      <li>Enquire</li>
+      <li>Request</li>
+    </ul>
+  </div>
+
+  <!-- Content -->
+  <div class="content">
+    <h2>Account Summary</h2>
+    <h3 id="username"></h3>
+   <div class="account-box account-summary">
+
+  <!-- LEFT : Account Type -->
+  <div class="left">
+    <strong id="accType">Current Account</strong>
+  </div>
+
+  <!-- RIGHT : Account No & Balance -->
+  <div class="right">
+    <div>
+      <strong>Account No:</strong>
+      <span id="accountNo">XXXX4567</span>
+      <a href="#" onclick="toggleAccount()" id="toggleText">Show</a>
+    </div>
+
+    <div class="balance">
+      Total Available Balance:
+      <span id="balance"></span>
+    </div>
+  </div>
+
+</div>
+    <div class="note">
+      <h4>Note:</h4>
+      <ul>
+        <li>The Available Balance displayed includes the credit balance and overdraft limit (if any) in your account.
+          (i)it does not include Uncleared funds.
+          (ii)it includes amount marked for hold 
+        </li>
+        <li>The Hold Balance may also include pending service charges due to be recovered from your account.</li>
+        <li>Savings Account customers can now reveive these statements monthly, by email, for free.<a>Click here!!</a></li>
+        <li>What's New! Now recharge your Prepaid Mobile and DTH connections through BillPay & Recharge.</li>
+      </ul>
+    </div>
+  
+
+</div>
+<!-- <script>
+
+const customerId = localStorage.getItem("customerId");
+
+if (!customerId) {
+  window.location.href = "index.html";
+}
+
+const fullAccNo = localStorage.getItem("accountNumber");
+let isHidden = true;
+document.getElementById("accountNo").innerText = "XXXX" + fullAccNo.slice(-4);
+// document.getElementById("headerUsername").innerText = localStorage.getItem("username");
+function toggleAccount(){
+  const accSpan = document.getElementById("accountNo");
+  const toggle = document.getElementById("toggleText");
+  if(isHidden){
+    accSpan.innerText = fullAccNo;
+    toggle.innerText = "Hide";
+  }
+  else{
+    accSpan.innerText = "XXXX" + fullAccNo.slice(-4);
+    toggle.innerText = "Show";
+  }
+  isHidden = !isHidden;
+}
+// Customer Name
+// document.getElementById("custName").innerText =
+//   localStorage.getItem("customerName");
+
+document.getElementById("headUserName").innerText = localStorage.getItem("customerName");
+// Balance
+document.getElementById("balance").innerText =
+ "₹ " + Number(localStorage.getItem("balance")).toLocaleString("en-IN");
+
+// Logout
+function logout() {
+  localStorage.clear();
+  window.location.href = "index.html";
+}
+</script> -->
+<script>
+ 
+const customerId = localStorage.getItem("customerId");
+if (!customerId) {
+  window.location.href = "index.html";
+}
+
+const fullAccNo = localStorage.getItem("accountNumber");
+let isHidden = true;
+
+document.getElementById("accountNo").innerText =
+  "XXXX" + fullAccNo.slice(-4);
+
+function toggleAccount() {
+  const accSpan = document.getElementById("accountNo");
+  const toggle = document.getElementById("toggleText");
+
+  if (isHidden) {
+    accSpan.innerText = fullAccNo;
+    toggle.innerText = "Hide";
+  } else {
+    accSpan.innerText = "XXXX" + fullAccNo.slice(-4);
+    toggle.innerText = "Show";
+  }
+  isHidden = !isHidden;
+}
+
+// HEADER USERNAME ✅
+document.getElementById("headerUsername").innerText =
+  localStorage.getItem("customerName");
+
+// BALANCE ✅
+document.getElementById("balance").innerText =
+  "₹ " + Number(localStorage.getItem("balance")).toLocaleString("en-IN");
+
+// LOGOUT ✅
+function logout() {
+  localStorage.clear();
+  window.location.href = "index.html";
+}
+
+</script>
+</body>
+</html>
